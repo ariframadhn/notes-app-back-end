@@ -1,10 +1,13 @@
 import { Router } from "express";
-import notes from "../services/notes/routes/index.js";
-import users from "../services/users/routes/index.js";
-
+import {
+  createUser,
+  getUserById,
+  getUsersByUsername,
+} from "../controller/users-controller.js";
+import { validate } from "../../../middlewares/validate.js";
+import { userPayloadSchema } from "../../../services/users/validator/schema.js";
 const router = Router();
-
-router.use("/", notes);
-router.use("/", users);
-
+router.post("/users", validate(userPayloadSchema), createUser);
+router.get("/users/:id", getUserById);
+router.get("/users", getUsersByUsername);
 export default router;
